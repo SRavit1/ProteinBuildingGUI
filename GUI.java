@@ -106,7 +106,6 @@ public class GUI extends JFrame {
 		}
 		public void mouseReleased(MouseEvent e) {
 			//Goal: Make the AminoAcid snap if it lines up with an AminoAcid
-			((AminoAcid) e.getSource()).setLocation(valine.snapx(e.getXOnScreen(), e.getYOnScreen()), valine.snapy(e.getXOnScreen(), e.getYOnScreen()));
 		}
 		public void mouseEntered(MouseEvent e) {}
 		public void mouseExited(MouseEvent e) {}
