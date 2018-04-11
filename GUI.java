@@ -55,6 +55,7 @@ public class GUI extends JFrame {
 	    //ADDING ACTION LISTENER TO BUTTON - SEE button_clicked
 	    /* button.addActionListener(new button_clicked());*/ 
 	   
+	// CREATING PANELS THAT SPLIT THE FRAME 
 	    JPanel panel = new JPanel();
 	       panel.setSize(2000, 250);
 	       panel.setBackground(Color.WHITE);
