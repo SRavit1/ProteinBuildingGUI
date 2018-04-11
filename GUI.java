@@ -35,21 +35,47 @@ public class GUI extends JFrame {
 		//SETTING UP THE FRAME
 		JFrame frame = new JFrame("Protein GUI");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setSize(1500, 700);
+	    frame.setSize(2000, 1000);
 	    frame.setVisible(true);
 	    
 	    //ADDING PANEL TO FRAME
-	    JPanel panel = new JPanel();
+	   /* JPanel panel = new JPanel();
 	    frame.add(panel);
+	    JPanel panel2 = new JPanel(); 
+	    panel2.setPreferredSize(new Dimension(200,100)); 
+	   
+	    frame.add(panel2, BorderLayout.CENTER); */ 
+	   
 	    
 	    //CREATING AND ADDING BUTTON TO PANEL
-	    JButton button = new JButton("RUN"); 
+	    /* JButton button = new JButton("RUN"); 
 	    button.setPreferredSize(new Dimension (100,100));
-	    panel.add(button); 
+	    panel.add(button); */ 
 	    
 	    //ADDING ACTION LISTENER TO BUTTON - SEE button_clicked
-	    button.addActionListener(new button_clicked());
-	    
+	    /* button.addActionListener(new button_clicked());*/ 
+	   
+	    JPanel panel = new JPanel();
+	       panel.setSize(2000, 250);
+	       panel.setBackground(Color.WHITE);
+	       panel.setVisible(true);
+
+	       JPanel panel2 = new JPanel();
+	       panel2.setSize(2000, 750);
+	       panel2.setBackground(Color.PINK);
+	       panel2.setVisible(true);
+
+	       JSplitPane splitPane = new JSplitPane();
+	       splitPane.setSize(2000, 1000);
+	       splitPane.setDividerSize(0);
+	       splitPane.setDividerLocation(50);
+	       splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+	       splitPane.setLeftComponent(panel);
+	       splitPane.setRightComponent(panel2);
+	       
+	       frame.add(panel); 
+	       frame.add(panel2); 
+
 	    alanine.setup(50, 0, 0, 50, panel);
 	    arginine.setup(50, 50, 0, 150, panel);
 	    asparagine.setup(255, 0, 0, 250, panel);
