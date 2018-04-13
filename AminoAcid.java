@@ -3,6 +3,7 @@ import javax.swing.JPanel;
 
 public class AminoAcid extends Canvas{ 
 	public boolean mobile;
+	public boolean in_chain;
 	
 	public String name;
 	public String Polarity;
