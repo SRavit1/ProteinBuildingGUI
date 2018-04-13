@@ -1,8 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*; 
+import java.awt.event.*;
  
 public class GUI extends JFrame {
+	public static int next_x;
+	public static int next_y;
+	
+	public static int count = 0;
+	static Chain_AL chain = new Chain_AL ();
+	
 	public GUI() {
 		super ();
 	}
@@ -35,105 +41,87 @@ public class GUI extends JFrame {
 		//SETTING UP THE FRAME
 		JFrame frame = new JFrame("Protein GUI");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setSize(2000, 1000);
+	    frame.setSize(1550, 700);
 	    frame.setVisible(true);
 	    
-	    //ADDING PANEL TO FRAME
-	   /* JPanel panel = new JPanel();
-	    frame.add(panel);
-	    JPanel panel2 = new JPanel(); 
-	    panel2.setPreferredSize(new Dimension(200,100)); 
-	   
-	    frame.add(panel2, BorderLayout.CENTER); */ 
-	   
+	    // CREATING PANELS THAT SPLIT THE FRAME 
+	    JPanel bank = new JPanel();
+	    bank.setSize(1550, 250);
+	    bank.setBackground(Color.WHITE);
+	    bank.setVisible(true);
+	
+	    JPanel workspace = new JPanel();
+	    workspace.setSize(2000, 750);
+	    workspace.setBackground(Color.DARK_GRAY);
+	    workspace.setVisible(true);
 	    
-	    //CREATING AND ADDING BUTTON TO PANEL
-	    /* JButton button = new JButton("RUN"); 
-	    button.setPreferredSize(new Dimension (100,100));
-	    panel.add(button); */ 
-	    
-	    //ADDING ACTION LISTENER TO BUTTON - SEE button_clicked
-	    /* button.addActionListener(new button_clicked());*/ 
-	   
-	// CREATING PANELS THAT SPLIT THE FRAME 
-	    JPanel panel = new JPanel();
-	       panel.setSize(2000, 250);
-	       panel.setBackground(Color.WHITE);
-	       panel.setVisible(true);
+	    //ADDING PANELS TO FRAME
+	    frame.add(bank);
+	    frame.add(workspace);
 
-	       JPanel panel2 = new JPanel();
-	       panel2.setSize(2000, 750);
-	       panel2.setBackground(Color.PINK);
-	       panel2.setVisible(true);
-
-	       JSplitPane splitPane = new JSplitPane();
-	       splitPane.setSize(2000, 1000);
-	       splitPane.setDividerSize(0);
-	       splitPane.setDividerLocation(50);
-	       splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-	       splitPane.setLeftComponent(panel);
-	       splitPane.setRightComponent(panel2);
-	       
-	       frame.add(panel); 
-	       frame.add(panel2); 
-
-	    alanine.setup(50, 0, 0, 50, panel);
-	    arginine.setup(50, 50, 0, 150, panel);
-	    asparagine.setup(255, 0, 0, 250, panel);
-	    AsparticAcid.setup(50, 100, 50, 350, panel);
-	    cysteine.setup(0, 0, 150, 450, panel);
-	    GlutamicAcid.setup(0, 150, 0, 550, panel);
-	    glutamine.setup(100, 75, 0, 650, panel);
-	    glycine.setup(100, 0, 75, 750, panel);
-	    histidine.setup(0, 0, 255, 850, panel);
-	    isoleucine.setup(255, 255, 0, 950, panel);
-	    leucine.setup(255, 140, 0, 1050, panel);
-	    lysine.setup(255, 20, 147, 1150, panel);
-	    methionine.setup(75, 0, 130, 1250, panel);
-	    phenylalanine.setup(255, 215, 0, 1350, panel);
-	    proline.setup(0, 255, 255, 1450, panel);
-	    serine.setup(205, 133, 63, 1550, panel);
-	    threonine.setup(0,191,255,1650,panel);
-	    tryptophan.setup(123, 104, 238, 1750, panel);
-	    tyrosine.setup(178,34,34, 1850, panel);
-	    valine.setup(255,222, 173, 1950, panel);
+	    //SETTING UP THE AMINO ACIDS
+	    alanine.setup(50, 0, 0, 50, bank);
+	    arginine.setup(50, 50, 0, 125, bank);
+	    asparagine.setup(255, 0, 0, 200, bank);
+	    AsparticAcid.setup(50, 100, 50, 275, bank);
+	    cysteine.setup(0, 0, 150, 350, bank);
+	    GlutamicAcid.setup(0, 150, 0, 425, bank);
+	    glutamine.setup(100, 75, 0, 500, bank);
+	    glycine.setup(100, 0, 75, 575, bank);
+	    histidine.setup(0, 0, 255, 650, bank);
+	    isoleucine.setup(255, 255, 0, 725, bank);
+	    leucine.setup(255, 140, 0, 800, bank);
+	    lysine.setup(255, 20, 147, 875, bank);
+	    methionine.setup(75, 0, 130, 950, bank);
+	    phenylalanine.setup(255, 215, 0, 1025, bank);
+	    proline.setup(0, 255, 255, 1100, bank);
+	    serine.setup(205, 133, 63, 1175, bank);
+	    threonine.setup(0,191,255,1250,bank);
+	    tryptophan.setup(123, 104, 238, 1325, bank);
+	    tyrosine.setup(178,34,34, 1400, bank);
+	    valine.setup(255,222, 173, 1475, bank);
 	}
 	
-	//CLASS THAT RESPONDS TO BUTTON CLICKS
-	public static class button_clicked implements ActionListener{
-		public void actionPerformed (ActionEvent e) {
-			System.out.println("Button Clicked.");
-		}
-	}
-	
-	//CLASS THAT RESPONDS TO BOX DRAGS
+	//CLASS THAT RESPONDS TO MOUSE ACTIONS ON BOX
 	public static class box_dragged implements MouseMotionListener, MouseListener{
-		AminoAcid clone;
 		public void mouseDragged(MouseEvent e) {
-			int new_x = e.getXOnScreen()-40;
-			int new_y = e.getYOnScreen()-75;
+			int temp_x = e.getXOnScreen()-38;
+			int temp_y = e.getYOnScreen()-75;
+			
 			AminoAcid orig = (AminoAcid) e.getSource();
 			
-			int i = 0;
-			int new_red = orig.r + i > 255?orig.r - i:orig.r + i;
-			int new_green = orig.g + i > 255?orig.g - i:orig.g + i;
-			int new_blue = orig.b + i > 255?orig.b - i:orig.b + i;
-			
-			orig.setBackground(new Color(new_red, new_green, new_blue));
-			orig.setLocation(new_x, new_y);
+			orig.mobile = true;
+			orig.setBackground(new Color(orig.r, orig.g, orig.b));
+			orig.setLocation(temp_x, temp_y);
 		}
-		
 		public void mouseClicked(MouseEvent e) {
-			System.out.println(e.getSource());
+			AminoAcid orig = (AminoAcid) e.getSource();
+			if (orig.mobile == false) {
+				System.out.println(orig);
+			}
+			
 		}
-		public void mouseMoved(MouseEvent e) {}
 		public void mousePressed(MouseEvent e) {
-			clone = ((AminoAcid) e.getSource()).clone();
+			AminoAcid clone = ((AminoAcid) e.getSource()).clone();
+			clone.mobile = false;
 			clone.setup(clone.r, clone.g, clone.b, clone.x, clone.panel);
 		}
 		public void mouseReleased(MouseEvent e) {
-			//Goal: Make the AminoAcid snap if it lines up with an AminoAcid
+			if (count == 0) {
+				next_x = e.getXOnScreen()-38;
+				next_y = e.getYOnScreen()-75;
+			}
+			AminoAcid orig = (AminoAcid) e.getSource();
+			if (orig.mobile == true) {
+				orig.setBackground(new Color(orig.r, orig.g, orig.b));
+				orig.setLocation(next_x, next_y);
+				count++;
+				next_x += 55;
+				chain.add(orig);
+				System.out.println(chain);
+			}
 		}
+		public void mouseMoved(MouseEvent e) {}
 		public void mouseEntered(MouseEvent e) {}
 		public void mouseExited(MouseEvent e) {}
 	}
