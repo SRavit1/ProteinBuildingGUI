@@ -28,6 +28,9 @@ public class GUI extends JFrame {
 	static JPanel workspace = new JPanel();
 	static JPanel stats = new JPanel();
 	
+	static Button fasta_button = new Button ("Obtain FASTA File");
+	static Button undo_button = new Button ("Undo");
+	
 	static Label bank_header = new Label ("BANK");
 	static Label workspace_header = new Label ("WORKSPACE");
 	
@@ -48,34 +51,36 @@ public class GUI extends JFrame {
 	static Label statsb_neutral		= new Label ("# OF NEUTRAL AMINO ACIDS: 0");
 	
 	//The following fields are the twenty AminoAcid s to be placed in the bank
-	static AminoAcid alanine		 = new AminoAcid ("ALANINE",	  	false, 	1.8, 	"Neutral", 	"ALA");
-	static AminoAcid arginine		 = new AminoAcid ("ARGININE", 	  	true, 	-4.5, 	"Basic", 	"ARG");
-	static AminoAcid asparagine		 = new AminoAcid ("ASPARAGINE",	  	true,	-4.5,	"Neutral",	"ASN");
-	static AminoAcid AsparticAcid	 = new AminoAcid ("ASPARTIC ACID",	true, 	-3.5,	"Acidic", 	"ASP");
-	static AminoAcid cysteine 		 = new AminoAcid ("CYSTEINE",	  	true,	2.5,	"Neutral",  "CYS");
-	static AminoAcid GlutamicAcid 	 = new AminoAcid ("GLUTAMIC ACID",	true,	-3.5,	"Acidic",  	"GLU");
-	static AminoAcid glutamine 		 = new AminoAcid ("GLUTAMINE",	    true,	-3.5,	"Neutral",  "GLN");
-	static AminoAcid glycine 		 = new AminoAcid ("GLYCINE",		false,	-0.4,	"Neutral",  "GLY");
-	static AminoAcid histidine  	 = new AminoAcid ("HISTIDINE",		true,	-3.2,	"Basic", 	"HIS");
-	static AminoAcid isoleucine 	 = new AminoAcid ("ISOLEUCINE",		false,	4.5,	"Neutral",	"ILE");
-	static AminoAcid leucine 		 = new AminoAcid ("LEUCINE",		false,	3.8,	"Neutral",	"LEU");
-	static AminoAcid lysine 		 = new AminoAcid ("LYSINE",			true,	-3.9,	"Basic", 	"LYS");
-	static AminoAcid methionine 	 = new AminoAcid ("METHIONINE",		false,	1.9,	"Neutral", 	"MET");
-	static AminoAcid phenylalanine	 = new AminoAcid ("PHENYLALANINE",  false,	2.8,	"Neutral", 	"PHE");
-	static AminoAcid proline 		 = new AminoAcid ("PROLINE",		false,	-1.6,	"Neutral",	"PRO");
-	static AminoAcid serine 		 = new AminoAcid ("SERINE",			true,	-0.8,	"Neutral", 	"SER");
-	static AminoAcid threonine		 = new AminoAcid ("THREONINE",		true,	-0.7,	"Neutral",	"THR");
-	static AminoAcid tryptophan		 = new AminoAcid ("TRYPTOPHAN",		false,	-0.9,	"Neutral",	"TRP");
-	static AminoAcid tyrosine 		 = new AminoAcid ("TYROSINE",		true,	-1.3,	"Neutral", 	"TYR");
-	static AminoAcid valine			 = new AminoAcid ("VALINE",			false,	4.2,	"Neutral",	"VAL");
+	static AminoAcid alanine		 = new AminoAcid ("ALANINE",	  	false, 	1.8, 	"Neutral", 	"ALA", "A");
+	static AminoAcid arginine		 = new AminoAcid ("ARGININE", 	  	true, 	-4.5, 	"Basic", 	"ARG", "R");
+	static AminoAcid asparagine		 = new AminoAcid ("ASPARAGINE",	  	true,	-4.5,	"Neutral",	"ASN", "N");
+	static AminoAcid AsparticAcid	 = new AminoAcid ("ASPARTIC ACID",	true, 	-3.5,	"Acidic", 	"ASP", "D");
+	static AminoAcid cysteine 		 = new AminoAcid ("CYSTEINE",	  	true,	2.5,	"Neutral",  "CYS", "C");
+	static AminoAcid GlutamicAcid 	 = new AminoAcid ("GLUTAMIC ACID",	true,	-3.5,	"Acidic",  	"GLU", "E");
+	static AminoAcid glutamine 		 = new AminoAcid ("GLUTAMINE",	    true,	-3.5,	"Neutral",  "GLN", "Q");
+	static AminoAcid glycine 		 = new AminoAcid ("GLYCINE",		false,	-0.4,	"Neutral",  "GLY", "G");
+	static AminoAcid histidine  	 = new AminoAcid ("HISTIDINE",		true,	-3.2,	"Basic", 	"HIS", "H");
+	static AminoAcid isoleucine 	 = new AminoAcid ("ISOLEUCINE",		false,	4.5,	"Neutral",	"ILE", "I");
+	static AminoAcid leucine 		 = new AminoAcid ("LEUCINE",		false,	3.8,	"Neutral",	"LEU", "L");
+	static AminoAcid lysine 		 = new AminoAcid ("LYSINE",			true,	-3.9,	"Basic", 	"LYS", "K");
+	static AminoAcid methionine 	 = new AminoAcid ("METHIONINE",		false,	1.9,	"Neutral", 	"MET", "M");
+	static AminoAcid phenylalanine	 = new AminoAcid ("PHENYLALANINE",  false,	2.8,	"Neutral", 	"PHE", "F");
+	static AminoAcid proline 		 = new AminoAcid ("PROLINE",		false,	-1.6,	"Neutral",	"PRO", "P");
+	static AminoAcid serine 		 = new AminoAcid ("SERINE",			true,	-0.8,	"Neutral", 	"SER", "S");
+	static AminoAcid threonine		 = new AminoAcid ("THREONINE",		true,	-0.7,	"Neutral",	"THR", "T");
+	static AminoAcid tryptophan		 = new AminoAcid ("TRYPTOPHAN",		false,	-0.9,	"Neutral",	"TRP", "W");
+	static AminoAcid tyrosine 		 = new AminoAcid ("TYROSINE",		true,	-1.3,	"Neutral", 	"TYR", "Y");
+	static AminoAcid valine			 = new AminoAcid ("VALINE",			false,	4.2,	"Neutral",	"VAL", "V");
 	
 	
 	public static void main(String[] args) { 
 		//Setting up the frame
 		JFrame frame = new JFrame("Protein GUI");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setSize(1550, 700);
+	    frame.setBounds(100, 0, 1550, 700);
 	    frame.setVisible(true);
+	    
+
 	    
 	    // Creating panels that split the frame, and giving them different colors
 	    bank.setBounds(0, 0, 1550, 150);
@@ -92,7 +97,17 @@ public class GUI extends JFrame {
 	    frame.add(workspace);
 	    frame.add(stats);
 	    
-		bank_header.setFont(new Font("ARIAL", Font.BOLD, 15));
+	    stats.add(fasta_button);
+	    fasta_button.setBounds(25, 450, 200, 30);
+	    fasta_button.setVisible(true);
+	    fasta_button.addMouseListener(new bml());
+	    
+	    workspace.add(undo_button);
+	    undo_button.setBounds (1100, 10, 200, 30);
+	    undo_button.setVisible(true);
+	    undo_button.addMouseListener(new uml());
+	    
+	    bank_header.setFont(new Font("ARIAL", Font.BOLD, 15));
 		bank_header.setAlignment(Label.CENTER);
 		bank_header.setBounds(0, 0, 1550, 30);
 		bank.add(bank_header);
@@ -164,12 +179,76 @@ public class GUI extends JFrame {
 	    tyrosine.setup		(178, 34,  34,  1400, bank);
 	    valine.setup		(255, 222, 173, 1475, bank);
 	}
+	public static void undo () {
+		if (chain.size() == 0) {
+			return;
+		}
+		
+		AminoAcid current = ((AminoAcid)chain.get(chain.size() - 1));
+		
+		current.setVisible(false);
+		
+		if (current.Polarity == true) {polar_count--; }
+		else {nonpolar_count--; }
+		
+		if (current.SideChainCharge == "Acidic") {acidic_count--; }
+		else if (current.SideChainCharge == "Basic") {basic_count--;}
+		else {neutral_count--;}
+		
+		Chain_AL temp = new Chain_AL();
+		for (int i = 0; i < chain.size() - 1; i++) {
+			temp.add(chain.get(i));
+		}
+		chain = temp;
+		
+		statsb_count.setText("# OF AMINO ACIDS: " + (chain.size()));
+		statsb_polar.setText("# OF POLAR AMINO ACIDS: " + polar_count);
+		statsb_nonpolar.setText("# OF NONPOLAR AMINO ACIDS: " + nonpolar_count);
+		statsb_acidic.setText("# OF ACIDIC AMINO ACIDS: " + acidic_count);
+		statsb_basic.setText("# OF BASIC AMINO ACIDS: " + basic_count);
+		statsb_neutral.setText("# OF NEUTRAL AMINO ACIDS: " + neutral_count);
+		
+
+		next_x -= 55;
+	}
+	public static class uml implements MouseListener {
+		public void mouseClicked(MouseEvent e) {
+			undo();
+		}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+	}
+	
+	public static class bml implements MouseListener {
+		public void mouseClicked(MouseEvent e) {
+			JFrame fasta = new JFrame();
+			fasta.setBounds(500, 100, 500, 500);
+			fasta.setTitle("FASTA File");
+			
+			String fasta_string = "";
+			fasta_string += ">User's Sequence\n";
+			for (int i = 0; i < chain.size(); i++) {
+				fasta_string += ((AminoAcid) chain.get(i)).name_1letter;
+			}
+			
+			TextArea ta = new TextArea();
+			ta.setText(fasta_string);
+			fasta.add(ta);
+			fasta.setVisible(true);
+		}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+	}
 	
 	//Class that responds to mouse actions on AminoAcid instances
 	public static class box_mouselistener implements MouseMotionListener, MouseListener{
 		//Following method is invoked when mouse is dragged
 		public void mouseDragged(MouseEvent e) {
-			int temp_x = e.getXOnScreen()-38;
+			int temp_x = e.getXOnScreen()-138;
 			int temp_y = e.getYOnScreen()-75;
 			
 			AminoAcid orig = (AminoAcid) e.getSource();
@@ -183,7 +262,7 @@ public class GUI extends JFrame {
 		//Following method is invoked when mouse button is clicked
 		public void mouseClicked(MouseEvent e) {
 			AminoAcid orig = (AminoAcid) e.getSource();
-			statsa_name.setText("NAME: " + orig.name);
+			statsa_name.setText("NAME: " + orig.full_name);
 			statsa_hi.setText("HYDROPATHY INDEX: " + orig.HydropathyIndex);
 			statsa_polarity.setText("POLARITY: " + (orig.Polarity?"Polar":"Nonpolar"));
 			statsa_scc.setText("SIDE CHAIN CHARGE: " + orig.SideChainCharge);
@@ -199,7 +278,7 @@ public class GUI extends JFrame {
 		//Following method is invoked when mouse button is released
 		public void mouseReleased(MouseEvent e) {
 			if (chain.size() == 0) {
-				next_x = e.getXOnScreen()-38;
+				next_x = e.getXOnScreen()-138;
 				next_y = e.getYOnScreen()-75;
 			}
 			
