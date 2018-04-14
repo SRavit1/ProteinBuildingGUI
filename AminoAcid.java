@@ -4,7 +4,6 @@ import javax.swing.*;
 public class AminoAcid extends Label{
 	
 	public boolean mobile;
-	public boolean in_chain;
 	
 	public String full_name;
 	public String name_3letter;
