@@ -6,8 +6,10 @@ public class AminoAcid extends Label{
 	public boolean mobile;
 	public boolean in_chain;
 	
-	public String name;
-	public String short_name;
+	public String full_name;
+	public String name_3letter;
+	public String name_1letter;
+	
 	public boolean Polarity;
 	public double HydropathyIndex;
 	public String SideChainCharge;
@@ -18,14 +20,15 @@ public class AminoAcid extends Label{
 	int x;
 	JPanel panel;
 	
-	AminoAcid (String name, Boolean Polarity, double HydropathyIndex, String SideChainCharge, String short_name) {
+	AminoAcid (String full_name, Boolean Polarity, double HydropathyIndex, String SideChainCharge, String name_3letter, String name_1letter) {
 		//This constructor sets the fields of the object according to the parameters
-		this.name = name;
+		this.full_name = full_name;
 		this.Polarity = Polarity;
 		this.HydropathyIndex = HydropathyIndex;
 		this.SideChainCharge = SideChainCharge;
 		
-		this.short_name = short_name;
+		this.name_3letter = name_3letter;
+		this.name_1letter = name_1letter;
 	}
 	
 	public void setup (int r, int g, int b, int x, JPanel panel) {
@@ -49,11 +52,11 @@ public class AminoAcid extends Label{
 		Font font = new Font("Arial", Font.CENTER_BASELINE, 14);
 		this.setAlignment(Label.CENTER);
 		this.setFont(font);
-		this.setText(short_name);
+		this.setText(name_3letter);
 	}
 	public AminoAcid clone () {
 		//This method creates and returns a new AminoAcid with most of the same fields
-		AminoAcid clone = new AminoAcid(name, Polarity, HydropathyIndex, SideChainCharge, short_name);
+		AminoAcid clone = new AminoAcid(full_name, Polarity, HydropathyIndex, SideChainCharge, name_3letter, name_1letter);
 		clone.r = r;
 		clone.g = g;
 		clone.b = b;
