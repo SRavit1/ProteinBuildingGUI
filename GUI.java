@@ -9,10 +9,12 @@ import java.awt.event.*;
  */
 
 public class GUI extends JFrame {
-	
 	//These two fields control the placement of the next box after being dragged and released
 	public static int next_x;
 	public static int next_y;
+	
+	public static int last_x;
+	public static int last_y;
 	
 	//The following is an instantiation of Chain_AL, subclass of ArrayList, that contains the contents of the proteins in the workspace
 	static Chain_AL chain = new Chain_AL ();
@@ -30,6 +32,7 @@ public class GUI extends JFrame {
 	
 	static Button fasta_button = new Button ("Obtain FASTA File");
 	static Button undo_button = new Button ("Undo");
+	static Button restart_button = new Button ("Restart");
 	
 	static Label bank_header = new Label ("BANK");
 	static Label workspace_header = new Label ("WORKSPACE");
@@ -43,12 +46,12 @@ public class GUI extends JFrame {
 	
 	//The following fields are the labels for statistics of the chain created
 	static Label statsb_HEADER 		= new Label ("PROTEIN STATISTICS");
-	static Label statsb_count 		= new Label ("# OF AMINO ACIDS: 0");
-	static Label statsb_polar 		= new Label ("# OF POLAR AMINO ACIDS: 0");
-	static Label statsb_nonpolar	= new Label ("# OF NONPOLAR AMINO ACIDS: 0");
-	static Label statsb_acidic		= new Label ("# OF ACIDIC AMINO ACIDS: 0");
-	static Label statsb_basic 		= new Label ("# OF BASIC AMINO ACIDS: 0");
-	static Label statsb_neutral		= new Label ("# OF NEUTRAL AMINO ACIDS: 0");
+	static Label statsb_count 		= new Label ("# OF AMINO ACIDS: " + chain.size());
+	static Label statsb_polar 		= new Label ("# OF POLAR AMINO ACIDS: " + polar_count);
+	static Label statsb_nonpolar	= new Label ("# OF NONPOLAR AMINO ACIDS: " + nonpolar_count);
+	static Label statsb_acidic		= new Label ("# OF ACIDIC AMINO ACIDS: " + acidic_count);
+	static Label statsb_basic 		= new Label ("# OF BASIC AMINO ACIDS: " + basic_count);
+	static Label statsb_neutral		= new Label ("# OF NEUTRAL AMINO ACIDS: " + neutral_count);
 	
 	//The following fields are the twenty AminoAcid s to be placed in the bank
 	static AminoAcid alanine		 = new AminoAcid ("ALANINE",	  	false, 	1.8, 	"Neutral", 	"ALA", "A");
@@ -80,8 +83,6 @@ public class GUI extends JFrame {
 	    frame.setBounds(100, 0, 1550, 700);
 	    frame.setVisible(true);
 	    
-
-	    
 	    // Creating panels that split the frame, and giving them different colors
 	    bank.setBounds(0, 0, 1550, 150);
 	    bank.setBackground(Color.WHITE);
@@ -100,12 +101,17 @@ public class GUI extends JFrame {
 	    stats.add(fasta_button);
 	    fasta_button.setBounds(25, 450, 200, 30);
 	    fasta_button.setVisible(true);
-	    fasta_button.addMouseListener(new bml());
+	    fasta_button.addMouseListener(new fml());
 	    
 	    workspace.add(undo_button);
 	    undo_button.setBounds (1100, 10, 200, 30);
 	    undo_button.setVisible(true);
 	    undo_button.addMouseListener(new uml());
+	    
+	    workspace.add(restart_button);
+	    restart_button.setBounds(1100, 40,200,30);
+	    restart_button.setVisible(true);
+	    restart_button.addMouseListener(new rml());
 	    
 	    bank_header.setFont(new Font("ARIAL", Font.BOLD, 15));
 		bank_header.setAlignment(Label.CENTER);
@@ -201,16 +207,48 @@ public class GUI extends JFrame {
 		}
 		chain = temp;
 		
+		update_statsb ();
+		next_x -= 55;
+	}
+	
+	public static void update_statsa (AminoAcid current) {
+		statsa_name.setText("NAME: " + current.full_name);
+		statsa_hi.setText("HYDROPATHY INDEX: " + current.HydropathyIndex);
+		statsa_polarity.setText("POLARITY: " + (current.Polarity?"Polar":"Nonpolar"));
+		statsa_scc.setText("SIDE CHAIN CHARGE: " + current.SideChainCharge);
+	}
+	public static void update_statsb () {
 		statsb_count.setText("# OF AMINO ACIDS: " + (chain.size()));
 		statsb_polar.setText("# OF POLAR AMINO ACIDS: " + polar_count);
 		statsb_nonpolar.setText("# OF NONPOLAR AMINO ACIDS: " + nonpolar_count);
 		statsb_acidic.setText("# OF ACIDIC AMINO ACIDS: " + acidic_count);
 		statsb_basic.setText("# OF BASIC AMINO ACIDS: " + basic_count);
 		statsb_neutral.setText("# OF NEUTRAL AMINO ACIDS: " + neutral_count);
-		
-
-		next_x -= 55;
 	}
+	
+	//Restart Button Motion Listener
+	public static class rml implements MouseListener {
+		public void mouseClicked(MouseEvent e) {
+			for (int i = 0; i < chain.size(); i++) {
+				((AminoAcid)chain.get(i)).setVisible(false);
+			}
+			chain = new Chain_AL ();
+			
+			polar_count = 0;
+			nonpolar_count = 0;
+			acidic_count = 0;
+			basic_count = 0;
+			neutral_count = 0;
+			
+			update_statsb ();
+		}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+	}
+	
+	//Undo Mouse Listener
 	public static class uml implements MouseListener {
 		public void mouseClicked(MouseEvent e) {
 			undo();
@@ -221,7 +259,8 @@ public class GUI extends JFrame {
 		public void mouseExited(MouseEvent e) {}
 	}
 	
-	public static class bml implements MouseListener {
+	//FASTA Mouse Listener
+	public static class fml implements MouseListener {
 		public void mouseClicked(MouseEvent e) {
 			JFrame fasta = new JFrame();
 			fasta.setBounds(500, 100, 500, 500);
@@ -254,18 +293,47 @@ public class GUI extends JFrame {
 			AminoAcid orig = (AminoAcid) e.getSource();
 			
 			orig.mobile = true;
-			if (orig.in_chain == false) {
+			if (chain.contains(orig) == false) {
+				if (temp_x < 0) temp_x = 0;
 				orig.setLocation(temp_x, temp_y);
 			}
+			
+			//if (chain.size() != 0 && e.getY() > 225) {
+			if (chain.size() != 0) {
+				if (e.getYOnScreen() < 226) {
+					temp_y = 150;
+				}
+				if (chain.get(chain.size() - 1) == orig) {
+					if (temp_x < 0) temp_x = 0;
+					orig.setLocation(temp_x, temp_y);
+				}
+				if (chain.contains(orig) && chain.get(chain.size() - 1) != orig) {
+					temp_x = temp_x - (orig.getX() - ((AminoAcid)chain.get(0)).getX());
+					for (int i = 0; i < chain.size(); i++) {
+						AminoAcid ith = ((AminoAcid)chain.get(i));
+						if (temp_x < 1250) {
+							if (temp_x < 0) temp_x = 0;
+							ith.setLocation(temp_x, temp_y);
+							temp_x += 55;
+						}
+						else {
+							temp_x = ((AminoAcid)chain.get(0)).getX();
+							temp_y += 75;
+							if (temp_x < 0) temp_x = 0;
+							ith.setLocation(temp_x,temp_y);
+							temp_x += 55;
+						}
+					}
+				}
+			}
+			last_x = e.getXOnScreen();
+			last_y = e.getYOnScreen();
 		}
 		
 		//Following method is invoked when mouse button is clicked
 		public void mouseClicked(MouseEvent e) {
 			AminoAcid orig = (AminoAcid) e.getSource();
-			statsa_name.setText("NAME: " + orig.full_name);
-			statsa_hi.setText("HYDROPATHY INDEX: " + orig.HydropathyIndex);
-			statsa_polarity.setText("POLARITY: " + (orig.Polarity?"Polar":"Nonpolar"));
-			statsa_scc.setText("SIDE CHAIN CHARGE: " + orig.SideChainCharge);
+			update_statsa (orig);
 		}
 		
 		//Following method is invoked when mouse button is pressed
@@ -273,6 +341,9 @@ public class GUI extends JFrame {
 			AminoAcid clone = ((AminoAcid) e.getSource()).clone();
 			clone.mobile = false;
 			clone.setup(clone.r, clone.g, clone.b, clone.x, clone.panel);
+			
+			last_x = e.getXOnScreen();
+			last_y = e.getYOnScreen();
 		}
 		
 		//Following method is invoked when mouse button is released
@@ -281,9 +352,16 @@ public class GUI extends JFrame {
 				next_x = e.getXOnScreen()-138;
 				next_y = e.getYOnScreen()-75;
 			}
-			
+			else {
+				next_x = ((AminoAcid)chain.get(chain.size() - 1)).getX() + 55;
+				next_y = ((AminoAcid)chain.get(chain.size() - 1)).getY();
+			}
 			AminoAcid orig = (AminoAcid) e.getSource();
-			if (orig.mobile == true && orig.in_chain == false && next_y > 150 && next_x < 1275) {
+			if (orig.mobile == true && chain.contains(orig) == false && next_y > 225) {
+				if (next_x > 1250) {
+					next_x = ((AminoAcid)chain.get(0)).getX();
+					next_y += 75;
+				}
 				if (orig.Polarity == true) {polar_count++; }
 				else {nonpolar_count++; }
 				
@@ -301,10 +379,11 @@ public class GUI extends JFrame {
 				orig.setLocation(next_x, next_y);
 				next_x += 55;
 				chain.add(orig);
-				orig.in_chain = true;
+			}
+			else if (orig.mobile == true && chain.contains(orig) == false && next_y < 226) {
+				orig.setVisible(false);
 			}
 		}
-		
 		public void mouseMoved(MouseEvent e) {}
 		public void mouseEntered(MouseEvent e) {}
 		public void mouseExited(MouseEvent e) {}
