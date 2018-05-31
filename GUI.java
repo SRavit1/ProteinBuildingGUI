@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
  
 /**
  * This is the main class of the ProteinBuildingGui project.
@@ -16,8 +17,8 @@ public class GUI extends JFrame {
 	public static int last_x;
 	public static int last_y;
 	
-	//The following is an instantiation of Chain_AL, subclass of ArrayList, that contains the contents of the proteins in the workspace
-	static Chain_AL chain = new Chain_AL ();
+	//The following is an instantiation of ArrayList, subclass of ArrayList, that contains the contents of the proteins in the workspace
+	static ArrayList chain = new ArrayList ();
 	
 	static int polar_count = 0;
 	static int nonpolar_count = 0;
@@ -37,7 +38,7 @@ public class GUI extends JFrame {
 	static Label bank_header = new Label ("BANK");
 	static Label workspace_header = new Label ("WORKSPACE");
 	
-	//The following fields are the labels for statistics of AminoAcid s
+	//The following fields are the labels for statistics of AminoAcids
 	static Label statsa_HEADER 		= new Label ("AMINO ACID STATISTICS");
 	static Label statsa_name 		= new Label ("NAME: ");
 	static Label statsa_polarity 	= new Label ("POLARITY: ");
@@ -80,17 +81,17 @@ public class GUI extends JFrame {
 		//Setting up the frame
 		JFrame frame = new JFrame("Protein GUI");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setBounds(100, 0, 1550, 700);
+	    frame.setBounds(100*2/3, 0*2/3, 1550*2/3, 700*2/3);
 	    frame.setVisible(true);
 	    
 	    // Creating panels that split the frame, and giving them different colors
-	    bank.setBounds(0, 0, 1550, 150);
+	    bank.setBounds(0, 0, 1550*2/3, 150*2/3);
 	    bank.setBackground(Color.WHITE);
 	
-	    workspace.setBounds(0, 150, 1300, 600);
+	    workspace.setBounds(0, 150*2/3, 1300*2/3, 600*2/3);
 	    workspace.setBackground(Color.LIGHT_GRAY);
 	    
-	    stats.setBounds(1300, 150, 250, 600);
+	    stats.setBounds(1300*2/3, 150*2/3, 250*2/3, 600*2/3);
 	    stats.setBackground(Color.PINK);
 	    
 	    //Adding panels created above to frame
@@ -99,31 +100,37 @@ public class GUI extends JFrame {
 	    frame.add(stats);
 	    
 	    stats.add(fasta_button);
-	    fasta_button.setBounds(25, 450, 200, 30);
+	    fasta_button.setBounds(25*2/3, 450*2/3, 200*2/3, 30*2/3);
 	    fasta_button.setVisible(true);
 	    fasta_button.addMouseListener(new fml());
 	    
 	    workspace.add(undo_button);
-	    undo_button.setBounds (1100, 10, 200, 30);
+	    undo_button.setBounds (1100*2/3, 10*2/3, 200*2/3, 30*2/3);
 	    undo_button.setVisible(true);
 	    undo_button.addMouseListener(new uml());
 	    
 	    workspace.add(restart_button);
-	    restart_button.setBounds(1100, 40,200,30);
+	    restart_button.setBounds(1100*2/3, 40*2/3,200*2/3,30*2/3);
 	    restart_button.setVisible(true);
 	    restart_button.addMouseListener(new rml());
 	    
 	    bank_header.setFont(new Font("ARIAL", Font.BOLD, 15));
 		bank_header.setAlignment(Label.CENTER);
-		bank_header.setBounds(0, 0, 1550, 30);
+		bank_header.setBounds(0*2/3, 0*2/3, 1550*2/3, 30*2/3);
 		bank.add(bank_header);
 		
 		workspace_header.setFont(new Font("ARIAL", Font.BOLD, 15));
 		workspace_header.setAlignment(Label.CENTER);
-		workspace_header.setBounds(575, 0, 150, 30);
+		workspace_header.setBounds(575*2/3, 0*2/3, 150*2/3, 30*2/3);
 		workspace.add(workspace_header);
 	    
-	    //Adding Stats A labels to Stats panel
+	    statsa_HEADER.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+	    statsa_name.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+	    statsa_hi.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+	    statsa_polarity.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+	    statsa_scc.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+	    
+		//Adding Stats A labels to Stats panel
 	    stats.add(statsa_HEADER);
 	    stats.add(statsa_name);
 		stats.add(statsa_hi);
@@ -131,15 +138,23 @@ public class GUI extends JFrame {
 		stats.add(statsa_scc);
 		
 		//Setting up the font and alignment of Stats A Header
-		statsa_HEADER.setFont(new Font("ARIAL", Font.BOLD, 15));
+		statsa_HEADER.setFont(new Font("ARIAL", Font.BOLD, 13));
 		statsa_HEADER.setAlignment(Label.CENTER);
 		
 		//Setting up the bounds of the Stats A labels
-		statsa_HEADER.setBounds		(0, 0, 250, 50);
-		statsa_name.setBounds		(0, 50, 250, 25);
-		statsa_hi.setBounds			(0, 75, 250, 25);
-		statsa_polarity.setBounds	(0, 100, 250, 25);
-		statsa_scc.setBounds		(0, 125, 250, 25);
+		statsa_HEADER.setBounds		(0*2/3, 0*2/3, 250*2/3, 50*2/3);
+		statsa_name.setBounds		(0*2/3, 50*2/3, 250*2/3, 25*2/3);
+		statsa_hi.setBounds			(0*2/3, 75*2/3, 250*2/3, 25*2/3);
+		statsa_polarity.setBounds	(0*2/3, 100*2/3, 250*2/3, 25*2/3);
+		statsa_scc.setBounds		(0*2/3, 125*2/3, 250*2/3, 25*2/3);
+		
+		statsb_HEADER.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+		statsb_count.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+		statsb_polar.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+		statsb_nonpolar.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+		statsb_acidic.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+		statsb_basic.setFont(new Font ("ARIAL", Font.PLAIN, 10));
+		statsb_neutral.setFont(new Font ("ARIAL", Font.PLAIN, 10));
 		
 		//Adding Stats B labels to Stats panel
 		stats.add(statsb_HEADER);
@@ -151,17 +166,17 @@ public class GUI extends JFrame {
 		stats.add(statsb_neutral);
 		
 		//Setting up the font and alignment of Stats B Header
-		statsb_HEADER.setFont(new Font("ARIAL", Font.BOLD, 15));
+		statsb_HEADER.setFont(new Font("ARIAL", Font.BOLD, 13));
 		statsb_HEADER.setAlignment(Label.CENTER);
 		
 		//Setting up the bounds of the Stats B labels
-		statsb_HEADER.setBounds(0, 175, 250, 25);
-		statsb_count.setBounds(0, 225, 250, 25);
-		statsb_polar.setBounds(0, 275, 250, 25);
-		statsb_nonpolar.setBounds(0, 300, 250, 25);
-		statsb_acidic.setBounds(0, 350, 250, 25);
-		statsb_basic.setBounds(0, 375, 250, 25);
-		statsb_neutral.setBounds(0, 400, 250, 25);
+		statsb_HEADER.setBounds(0*2/3, 175*2/3, 250*2/3, 25*2/3);
+		statsb_count.setBounds(0*2/3, 225*2/3, 250*2/3, 25*2/3);
+		statsb_polar.setBounds(0*2/3, 275*2/3, 250*2/3, 25*2/3);
+		statsb_nonpolar.setBounds(0*2/3, 300*2/3, 250*2/3, 25*2/3);
+		statsb_acidic.setBounds(0*2/3, 350*2/3, 250*2/3, 25*2/3);
+		statsb_basic.setBounds(0*2/3, 375*2/3, 250*2/3, 25*2/3);
+		statsb_neutral.setBounds(0*2/3, 400*2/3, 250*2/3, 25*2/3);
 
 	    //Setting up AminoAcid s
 	    alanine.setup		(255, 0,   0,   50,   bank);
@@ -201,14 +216,14 @@ public class GUI extends JFrame {
 		else if (current.SideChainCharge == "Basic") {basic_count--;}
 		else {neutral_count--;}
 		
-		Chain_AL temp = new Chain_AL();
+		ArrayList temp = new ArrayList();
 		for (int i = 0; i < chain.size() - 1; i++) {
 			temp.add(chain.get(i));
 		}
 		chain = temp;
 		
 		update_statsb ();
-		next_x -= 55;
+		next_x -= 55/2;
 	}
 	
 	public static void update_statsa (AminoAcid current) {
@@ -232,7 +247,7 @@ public class GUI extends JFrame {
 			for (int i = 0; i < chain.size(); i++) {
 				((AminoAcid)chain.get(i)).setVisible(false);
 			}
-			chain = new Chain_AL ();
+			chain = new ArrayList ();
 			
 			polar_count = 0;
 			nonpolar_count = 0;
@@ -263,7 +278,7 @@ public class GUI extends JFrame {
 	public static class fml implements MouseListener {
 		public void mouseClicked(MouseEvent e) {
 			JFrame fasta = new JFrame();
-			fasta.setBounds(500, 100, 500, 500);
+			fasta.setBounds(500*2/3, 100*2/3, 500*2/3, 500*2/3);
 			fasta.setTitle("FASTA File");
 			
 			String fasta_string = "";
@@ -287,8 +302,8 @@ public class GUI extends JFrame {
 	public static class box_mouselistener implements MouseMotionListener, MouseListener{
 		//Following method is invoked when mouse is dragged
 		public void mouseDragged(MouseEvent e) {
-			int temp_x = e.getXOnScreen()-138;
-			int temp_y = e.getYOnScreen()-75;
+			int temp_x = e.getXOnScreen()-90;
+			int temp_y = e.getYOnScreen()-60;
 			
 			AminoAcid orig = (AminoAcid) e.getSource();
 			
@@ -311,17 +326,17 @@ public class GUI extends JFrame {
 					temp_x = temp_x - (orig.getX() - ((AminoAcid)chain.get(0)).getX());
 					for (int i = 0; i < chain.size(); i++) {
 						AminoAcid ith = ((AminoAcid)chain.get(i));
-						if (temp_x < 1250) {
+						if (temp_x < 1250*2/3) {
 							if (temp_x < 0) temp_x = 0;
 							ith.setLocation(temp_x, temp_y);
-							temp_x += 55;
+							temp_x += 55*2/3;
 						}
 						else {
 							temp_x = ((AminoAcid)chain.get(0)).getX();
-							temp_y += 75;
+							temp_y += 75*2/34;
 							if (temp_x < 0) temp_x = 0;
 							ith.setLocation(temp_x,temp_y);
-							temp_x += 55;
+							temp_x += 55*2/3;
 						}
 					}
 				}
@@ -349,19 +364,16 @@ public class GUI extends JFrame {
 		//Following method is invoked when mouse button is released
 		public void mouseReleased(MouseEvent e) {
 			if (chain.size() == 0) {
-				next_x = e.getXOnScreen()-138;
-				next_y = e.getYOnScreen()-75;
+				next_x = e.getXOnScreen()-90;
+				next_y = e.getYOnScreen()-60;
 			}
 			else {
-				next_x = ((AminoAcid)chain.get(chain.size() - 1)).getX() + 55;
+				next_x = ((AminoAcid)chain.get(chain.size() - 1)).getX() + 55*2/3;
 				next_y = ((AminoAcid)chain.get(chain.size() - 1)).getY();
 			}
 			AminoAcid orig = (AminoAcid) e.getSource();
-			if (orig.mobile == true && chain.contains(orig) == false && next_y > 225) {
-				if (next_x > 1250) {
-					next_x = ((AminoAcid)chain.get(0)).getX();
-					next_y += 75;
-				}
+			if (orig.mobile == true && chain.contains(orig) == false && next_y > 225*2/3) {
+
 				if (orig.Polarity == true) {polar_count++; }
 				else {nonpolar_count++; }
 				
@@ -377,10 +389,10 @@ public class GUI extends JFrame {
 				statsb_neutral.setText("# OF NEUTRAL AMINO ACIDS: " + neutral_count);
 				
 				orig.setLocation(next_x, next_y);
-				next_x += 55;
+				next_x += 55*2/3;
 				chain.add(orig);
 			}
-			else if (orig.mobile == true && chain.contains(orig) == false && next_y < 226) {
+			else if (orig.mobile == true && chain.contains(orig) == false && next_y < 226*2/3) {
 				orig.setVisible(false);
 			}
 		}
@@ -389,3 +401,4 @@ public class GUI extends JFrame {
 		public void mouseExited(MouseEvent e) {}
 	}
 }
+
