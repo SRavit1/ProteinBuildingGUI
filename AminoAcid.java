@@ -3,11 +3,12 @@ import javax.swing.*;
 
 public class AminoAcid extends Label{
 	
+	//Creation of fields
 	public boolean mobile;
 	
-	public String full_name;
-	public String name_3letter;
 	public String name_1letter;
+	public String name_3;
+	public String full_name;
 	
 	public boolean Polarity;
 	public double HydropathyIndex;
@@ -19,15 +20,15 @@ public class AminoAcid extends Label{
 	int x;
 	JPanel panel;
 	
-	AminoAcid (String full_name, Boolean Polarity, double HydropathyIndex, String SideChainCharge, String name_3letter, String name_1letter) {
+	AminoAcid (String full_name, Boolean Polarity, double HydropathyIndex, String SideChainCharge, String name_3, String name_1letter) {
 		//This constructor sets the fields of the object according to the parameters
+		this.name_1letter = name_1letter;
+		this.name_3 = name_3;
 		this.full_name = full_name;
+		
 		this.Polarity = Polarity;
 		this.HydropathyIndex = HydropathyIndex;
 		this.SideChainCharge = SideChainCharge;
-		
-		this.name_3letter = name_3letter;
-		this.name_1letter = name_1letter;
 	}
 	
 	public void setup (int r, int g, int b, int x, JPanel panel) {
@@ -39,7 +40,7 @@ public class AminoAcid extends Label{
 		this.panel = panel;
 		
 		//Setting the bounds and color of the object according to the parameters
-		setBounds(x, 50, 50, 50);
+		setBounds(x*2/3, 50*2/3, 50*2/3, 50*2/3);
 		setBackground(new Color(r, g, b));
 		panel.add(this);
 		
@@ -48,19 +49,15 @@ public class AminoAcid extends Label{
 		addMouseListener(new GUI.box_mouselistener());
 		
 		//Labeling the AminoAcid with its abbreviation
-		Font font = new Font("Arial", Font.CENTER_BASELINE, 14);
 		this.setAlignment(Label.CENTER);
-		this.setFont(font);
-		this.setText(name_3letter);
+		this.setFont(new Font("Arial", Font.CENTER_BASELINE, 14));
+		this.setText(name_3);
 	}
+	
 	public AminoAcid clone () {
 		//This method creates and returns a new AminoAcid with most of the same fields
-		AminoAcid clone = new AminoAcid(full_name, Polarity, HydropathyIndex, SideChainCharge, name_3letter, name_1letter);
-		clone.r = r;
-		clone.g = g;
-		clone.b = b;
-		clone.x = x;
-		clone.panel = panel;
+		AminoAcid clone = new AminoAcid(full_name, Polarity, HydropathyIndex, SideChainCharge, name_3, name_1letter);
+		clone.setup(r, g, b, x, panel);
 		return clone;
 	}
 }
