@@ -1,7 +1,7 @@
 # ProteinFoldingGUI
 
-
-![alt text](https://github.com/SRavit1/ProteinBuildingGUI/blob/master/ProteinGUI.png "Protein GUI")
+<a href="https://github.com/SRavit1/ProteinBuildingGUI/blob/master/Protein%20GUI%20Demo.mov" target="_blank"><img src="https://github.com/SRavit1/ProteinBuildingGUI/blob/master/ProteinGUI.png" 
+alt= "Protein GUI" border="10" /></a>
 
 ## Details
 Authors: Rithvik Agastya, Ravit Sharma
